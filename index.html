@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, minimum-scale=1, maximum-scale=1, initial-scale=1, user-scalable=0"
+    />
+    <title>Посчитать время</title>
+    <style type="text/css">
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "PT Mono";
+        color: #333;
+      }
+      .container {
+        width: 800px;
+        margin: 100px auto;
+      }
+      textarea {
+        display: block;
+        width: calc(100% - 32px);
+        height: 368px;
+        padding: 16px;
+        border: none;
+        background: rgba(0, 0, 0, 0.03);
+        font: 14px/20px "PT Mono";
+      }
+      .message {
+        width: 400px;
+        margin: 0;
+        text-align: center;
+        font-weight: bold;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Посчитать часы</h1>
+      <textarea
+        onchange="calc(this.value)"
+        onkeyup="calc(this.value)"
+      ></textarea>
+    </div>
+    <script type="text/javascript">
+      const message = document.getElementsByTagName("h1");
+
+      function calc(value) {
+        let sum = {
+          h: 0,
+          m: 0,
+        };
+
+        // Create array of strings
+        var values = value.split(/\n/);
+
+        // Remove text other than time
+        for (let i = 0; i < values.length; i++) {
+          values[i] = values[i].match(/\d+\:\d+/);
+        }
+
+        // Parse time
+        for (let i = 0; i < values.length; i++) {
+          if (values[i] !== null) values[i] = values[i][0].split(":");
+        }
+
+        // Calculate sum of hours and minutes individually
+        for (let i = 0; i < values.length; i++) {
+          if (values[i] !== null) {
+            sum.h += +values[i][0];
+            sum.m += +values[i][1];
+          }
+        }
+
+        // Convert minutes to hours
+        sum.h += Math.floor(sum.m / 60);
+        sum.m = sum.m % 60;
+
+        message[0].innerHTML = "Всего: " + sum.h + " ч " + sum.m + " мин";
+      }
+    </script>
+  </body>
+</html>
